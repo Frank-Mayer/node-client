@@ -39,6 +39,7 @@ function compareVersions(a: string, b: string) {
 export function getNvimFromEnv(minVersion?: string): NvimVersion | null {
   const paths = process.env.PATH.split(delimiter);
   paths.unshift(process.cwd());
+  console.log(process.cwd());
   const pathLength = paths.length;
   let highestMatchingVersion: NvimVersion | null = null;
   for (let i = 0; i !== pathLength; i = i + 1) {

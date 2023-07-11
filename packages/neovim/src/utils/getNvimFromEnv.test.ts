@@ -4,7 +4,7 @@ import * as which from 'which';
 import { getNvimFromEnv } from './getNvimFromEnv';
 
 try {
-  which.sync('nvim');
+  console.log(which.sync('nvim'));
 } catch (e) {
   // eslint-disable-next-line no-console
   console.error(
@@ -18,6 +18,7 @@ describe('get_nvim_from_env', () => {
   it('Gets matching nvim from specified min version', async () => {
     const nvim = getNvimFromEnv('0.3.0');
     expect(nvim).toBeTruthy();
+    console.log(nvim);
     expect(nvim).toEqual({
       nvimVersion: expect.any(String),
       path: expect.any(String),
