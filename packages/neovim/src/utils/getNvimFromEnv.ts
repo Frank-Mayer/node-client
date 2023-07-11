@@ -47,6 +47,7 @@ export function getNvimFromEnv(minVersion?: string): NvimVersion | null {
       const nvimVersionFull = execSync(
         `${possibleNvimPath} --version`
       ).toString();
+      console.log(nvimVersionFull);
       const nvimVersionMatch = /^NVIM\s+v(.+)$/m.exec(nvimVersionFull);
       const buildTypeMatch = /^Build\s+type:\s+(.+)$/m.exec(nvimVersionFull);
       const luaJitVersionMatch = /^LuaJIT\s+(.+)$/m.exec(nvimVersionFull);
