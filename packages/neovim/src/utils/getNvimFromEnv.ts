@@ -11,9 +11,9 @@ export interface NvimVersion {
 
 /**
  * Compare two versions.
- * @param {string} a - The first version to compare.
- * @param {string} b - The second version to compare.
- * @returns {number} -1 if a < b, 0 if a == b, 1 if a > b.
+ * @param a - The first version to compare.
+ * @param b - The second version to compare.
+ * @returns -1 if a < b, 0 if a == b, 1 if a > b.
  * @throws {Error} If the versions are not valid.
  *
  * Format could be:
@@ -42,6 +42,7 @@ export function getNvimFromEnv(minVersion?: string): NvimVersion | null {
   let highestMatchingVersion: NvimVersion | null = null;
   for (let i = 0; i !== pathLength; i = i + 1) {
     const possibleNvimPath = join(paths[i], 'nvim');
+    console.log(possibleNvimPath);
     if (existsSync(possibleNvimPath)) {
       const nvimVersionFull = execSync(
         `${possibleNvimPath} --version`
