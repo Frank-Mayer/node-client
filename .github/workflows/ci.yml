@@ -55,13 +55,11 @@ jobs:
       if: runner.os != 'Windows'
       run: |
         echo "$(pwd)/${{ matrix.NVIM_BIN_PATH }}" >> $GITHUB_PATH
-        export PATH="$(pwd)/${{ matrix.NVIM_BIN_PATH }}:$PATH"
 
     - name: update path (windows)
       if: runner.os == 'Windows'
       run: |
         echo "$(pwd)/${{ matrix.NVIM_BIN_PATH }}" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
-        export PATH="$(pwd)/${{ matrix.NVIM_BIN_PATH }};$PATH"
 
     - name: install dependencies
       run: npm ci
