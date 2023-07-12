@@ -103,12 +103,12 @@ export function getNvimFromEnv(minVersion?: string): NvimVersion | null {
         nvimVersionMatch &&
         buildTypeMatch &&
         luaJitVersionMatch &&
-        compareVersions(nvimVersionMatch[1], minVersion) >= 0 &&
-        (highestMatchingVersion == null ||
+        compareVersions(minVersion, nvimVersionMatch[1]) !== 1 &&
+        (highestMatchingVersion === null ||
           compareVersions(
-            nvimVersionMatch[1],
-            highestMatchingVersion.nvimVersion
-          ) > 0)
+            highestMatchingVersion.nvimVersion,
+            nvimVersionMatch[1]
+          ) === -1)
       ) {
         highestMatchingVersion = {
           nvimVersion: nvimVersionMatch[1],
