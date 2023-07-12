@@ -13,6 +13,7 @@ const versionRegex = /^(\d+)\.(\d+)\.(\d+)(?:-(.+))?$/;
 const nvimVersionRegex = /^NVIM\s+v(.+)$/m;
 const buildTypeRegex = /^Build\s+type:\s+(.+)$/m;
 const luaJitVersionRegex = /^LuaJIT\s+(.+)$/m;
+const windows = process.platform === 'win32';
 
 function parseVersion(version: string): (number | string)[] | null {
   const match = version.match(versionRegex);
@@ -91,7 +92,7 @@ export function getNvimFromEnv(minVersion?: string): NvimVersion | null {
   const pathLength = paths.length;
   let highestMatchingVersion: NvimVersion | null = null;
   for (let i = 0; i !== pathLength; i = i + 1) {
-    const possibleNvimPath = join(paths[i], 'nvim');
+    const possibleNvimPath = join(paths[i], windows ? 'nvim.exe' : 'nvim');
     if (existsSync(possibleNvimPath)) {
       const nvimVersionFull = execSync(
         `${possibleNvimPath} --version`
