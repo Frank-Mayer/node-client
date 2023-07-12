@@ -1,7 +1,7 @@
 /* eslint-env jest */
 // eslint-disable-next-line import/no-extraneous-dependencies
 import * as which from 'which';
-import { getNvimFromEnv } from './getNvimFromEnv';
+import { getNvimFromEnv, compareVersions } from './getNvimFromEnv';
 
 try {
   console.log(which.sync('nvim'));
@@ -15,10 +15,21 @@ try {
 }
 
 describe('get_nvim_from_env', () => {
-  it('Gets matching nvim from specified min version', async () => {
+  it('Compare versions', () => {
+    expect(compareVersions('0.3.0', '0.3.0')).toBe(0);
+    expect(compareVersions('0.3.0', '0.3.1')).toBe(-1);
+    expect(compareVersions('0.3.1', '0.3.0')).toBe(1);
+    expect(compareVersions('0.3.0-abc', '0.3.0-dev-420')).toBe(-1);
+    expect(compareVersions('0.3.0', '0.3.0-dev-658+g06694203e-Homebrew')).toBe(1);
+    expect(compareVersions('0.3.0-dev-658+g06694203e-Homebrew', '0.3.0')).toBe(-1);
+    expect(compareVersions('0.3.0-dev-658+g06694203e-Homebrew', '0.3.0-dev-658+g06694203e-Homebrew')).toBe(0);
+    expect(compareVersions('0.3.0-dev-658+g06694203e-Homebrew', '0.3.0-dev-659+g06694203e-Homebrew')).toBe(-1);
+    expect(compareVersions('0.3.0-dev-659+g06694203e-Homebrew', '0.3.0-dev-658+g06694203e-Homebrew')).toBe(1);
+  });
+
+  it('Get matching nvim from specified min version', () => {
     const nvim = getNvimFromEnv('0.3.0');
     expect(nvim).toBeTruthy();
-    console.log(nvim);
     expect(nvim).toEqual({
       nvimVersion: expect.any(String),
       path: expect.any(String),
